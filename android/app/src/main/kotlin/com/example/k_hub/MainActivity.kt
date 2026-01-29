@@ -5,8 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import es.antonborri.home_widget.HomeWidgetPlugin
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
+
+    private val channelName = "widget_extractor"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +22,33 @@ class MainActivity : FlutterActivity() {
         super.onNewIntent(intent)
         saveWidgetId(intent)
         saveKWidgetMapping(intent)
+    }
+
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName)
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "extractNoteWidget" -> {
+                        val prefs = HomeWidgetPlugin.getData(this)
+                        val widgetId = prefs.getInt(
+                            "current_widget_id",
+                            AppWidgetManager.INVALID_APPWIDGET_ID
+                        )
+                        val text = prefs.getString("note_text_$widgetId", "Empty note")
+                        val imageFileName = prefs.getString("note_image_$widgetId", null)
+
+                        if (widgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+                            NoteHomeWidget.updateNoteWidget(this, widgetId, text, imageFileName)
+                            result.success(true)
+                        } else {
+                            result.success(false)
+                        }
+                    }
+                    else -> result.notImplemented()
+                }
+            }
     }
 
     private fun saveWidgetId(intent: Intent?) {
@@ -45,7 +76,6 @@ class MainActivity : FlutterActivity() {
         val prefs = HomeWidgetPlugin.getData(this)
         val pendingId = prefs.getString("pending_k_widget_id", null) ?: return
 
-        // Map home screen widget ID -> Flutter widget ID
         prefs.edit()
             .putString("k_widget_mapping_$appWidgetId", pendingId)
             .remove("pending_k_widget_id")

@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:label="K-Hub"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -68,6 +69,16 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/note_widget_info" />
         </receiver>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <!-- FLUTTER EMBEDDING -->
         <meta-data
