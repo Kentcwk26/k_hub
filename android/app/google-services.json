@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "294319668906",
+    "project_id": "kpop-3b0b6",
+    "storage_bucket": "kpop-3b0b6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294319668906:android:97445109168e7a1bbb5ad3",
+        "android_client_info": {
+          "package_name": "com.example.k_hub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294319668906-hnf2fg3l1tbdhnuv8u1tq6m7ia2ao8uq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.k_hub",
+            "certificate_hash": "e2af873606bcbfa47017d15d8a0d4fcfe6cc0135"
+          }
+        },
+        {
+          "client_id": "294319668906-8fnh2gdtsag68t3p5dne0chr3p85r3uq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJYsiiLyZNhWxntmYEKHcHAA6-7a5QQ98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294319668906-8fnh2gdtsag68t3p5dne0chr3p85r3uq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "294319668906-8d19oujogvcr7ekdqg8epiq7urgujn1t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kpopVerse"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294319668906:android:0d427a7995188cb7bb5ad3",
+        "android_client_info": {
+          "package_name": "com.example.k_verse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294319668906-8fnh2gdtsag68t3p5dne0chr3p85r3uq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJYsiiLyZNhWxntmYEKHcHAA6-7a5QQ98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294319668906-8fnh2gdtsag68t3p5dne0chr3p85r3uq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "294319668906-8d19oujogvcr7ekdqg8epiq7urgujn1t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kpopVerse"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
