@@ -33,12 +33,14 @@ class NoteWidgetState {
   NoteWidgetState copyWith({
     String? text,
     String? imagePath,
+    bool removeImage = false,
   }) {
     return NoteWidgetState(
       text: text ?? this.text,
-      imagePath: imagePath ?? this.imagePath,
+      imagePath: removeImage ? null : imagePath ?? this.imagePath,
     );
   }
+
 }
 
 /// --------------------
@@ -60,6 +62,10 @@ class NoteWidgetVM extends StateNotifier<NoteWidgetState> {
 
   void setImagePath(String path) {
     state = state.copyWith(imagePath: path);
+  }
+
+  void removeImage() {
+    state = state.copyWith(removeImage: true);
   }
 
   Future<void> pickImage() async {
@@ -163,62 +169,234 @@ class NoteWidgetCreator extends ConsumerWidget {
         state.text.trim().isNotEmpty && state.imagePath != null;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Note Widget')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      appBar: AppBar(
+        title: const Text('Create Note Widget'),
+      ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
-            TextField(
-              maxLines: 6,
-              decoration: const InputDecoration(
-                hintText: 'Enter note text',
-                border: OutlineInputBorder(),
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-              onChanged: vm.setText,
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.grey[200],
-                  ),
-                  child: state.imagePath != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.file(
-                            File(state.imagePath!),
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : const Center(
-                          child: Icon(
-                            Icons.image,
-                            color: Colors.grey,
-                            size: 40,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    
+                    Padding(
+                      padding: EdgeInsetsGeometry.symmetric(vertical: 8),
+                      child: Text(
+                        '1. Select Image',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+                    Stack(
+                      children: [
+                        InkWell(
+                          borderRadius: BorderRadius.circular(14),
+                          onTap: vm.pickImage,
+                          child: Container(
+                            height: 160,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(color: Colors.grey.shade300),
+                              color: Colors.grey.shade100,
+                            ),
+                            child: state.imagePath != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(14),
+                                    child: Image.file(
+                                      File(state.imagePath!),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Icon(
+                                        Icons.image_outlined,
+                                        size: 48,
+                                        color: Colors.grey,
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        'Tap to select idol image',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                           ),
                         ),
+
+                        if (state.imagePath != null)
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: InkWell(
+                              onTap: vm.removeImage,
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                width: 32,
+                                height: 32,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.black54,
+                                ),
+                                child: const Icon(
+                                  Icons.close,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+
+                    Padding(
+                      padding: EdgeInsetsGeometry.symmetric(vertical: 14),
+                      child: Text(
+                        '2. Enter Text',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+                    TextField(
+                      maxLines: 6,
+                      decoration: InputDecoration(
+                        hintText: 'Write your note here…',
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      onChanged: vm.setText,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: vm.pickImage,
-                    icon: const Icon(Icons.upload_file),
-                    label: const Text('Select Idol Image'),
-                  ),
-                ),
-              ],
+              ),
             ),
-            const SizedBox(height: 16),
+
+            const SizedBox(height: 24),
+
+            /// =========================
+            /// PREVIEW TITLE
+            /// =========================
+            const Text(
+              'Widget Preview',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            /// =========================
+            /// PREVIEW CARD (UNCHANGED)
+            /// =========================
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Container(
+                height: 120,
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    /// PREVIEW IMAGE
+                    Container(
+                      width: 80,
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.grey.shade200,
+                      ),
+                      child: state.imagePath != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                File(state.imagePath!),
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : const Icon(
+                              Icons.image,
+                              color: Colors.grey,
+                            ),
+                    ),
+
+                    const SizedBox(width: 12),
+
+                    /// PREVIEW TEXT
+                    Expanded(
+                      child: Text(
+                        state.text.isEmpty
+                            ? 'Your note will appear here'
+                            : state.text,
+                        maxLines: 6,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: state.text.isEmpty
+                              ? Colors.grey
+                              : Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 28),
+
+            /// =========================
+            /// SAVE BUTTON
+            /// =========================
             SizedBox(
-              width: double.infinity,
+              height: 52,
               child: ElevatedButton(
                 onPressed: canSave ? () => vm.saveToWidget(context) : null,
-                child: const Text('Save to Widget'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                child: const Text(
+                  'Save to Widget',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            const Text(
+              'This preview matches how the widget will appear on your home screen.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
               ),
             ),
           ],
