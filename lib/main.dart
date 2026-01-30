@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
-import 'app_router.dart';
 import 'firebase_options.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'app_router.dart';
 import 'providers/theme_provider.dart';
 import 'screens/adminstrators/adminstrator.dart';
 import 'screens/home.dart';
@@ -119,6 +120,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotificationService.initialize();
   await _setupFCM();
+  await initializeDateFormatting();
 
   final initialUri = await HomeWidget.initiallyLaunchedFromHomeWidget();
 

@@ -57,9 +57,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('All data has been reset'.tr())),
-              );
+              SnackBarHelper.showError(context, 'All data has been reset'.tr());
             },
             child: Text(
               "resetAllData".tr(),
@@ -195,13 +193,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Account deletion requested'.tr(),
-                                    ),
-                                  ),
-                                );
+                                SnackBarHelper.showError(context, 'Account deletion requested'.tr());
                               },
                               child: Text(
                                 "deleteAccount".tr(),

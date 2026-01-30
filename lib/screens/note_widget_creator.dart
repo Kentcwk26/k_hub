@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../utils/snackbar_helper.dart';
+import 'clock_widget_creator.dart';
 
 /// --------------------
 /// STATE
@@ -170,7 +171,7 @@ class NoteWidgetCreator extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Note Widget'),
+        title: const Text('Create Widgets'),
       ),
       body: SafeArea(
         child: ListView(
@@ -381,6 +382,29 @@ class NoteWidgetCreator extends ConsumerWidget {
                 ),
                 child: const Text(
                   'Save to Widget',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            SizedBox(
+              height: 52,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (_) => const ClockWidgetCreatorButton(),
+                )),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                child: const Text(
+                  'Click me to create Clock Widget',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

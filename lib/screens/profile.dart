@@ -9,6 +9,7 @@ import '../models/user.dart';
 import '../repositories/user_repository.dart';
 import '../utils/date_formatter.dart';
 import '../utils/image_responsive.dart';
+import '../utils/snackbar_helper.dart';
 import '../widgets/app_drawer.dart';
 
 final profileViewModelProvider = StateNotifierProvider<ProfileViewModel, ProfileState>((ref) {
@@ -277,11 +278,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
                         GestureDetector(
                           onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Email cannot be changed. Contact support if needed."),
-                              ),
-                            );
+                            SnackBarHelper.showError(context, "Email cannot be changed. Contact support if needed.");
                           },
                           child: AbsorbPointer(
                             child: TextFormField(

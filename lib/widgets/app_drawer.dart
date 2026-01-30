@@ -5,6 +5,7 @@ import '../repositories/auth_repository.dart';
 import '../screens/login.dart';
 import '../screens/about.dart';
 import '../screens/settings.dart';
+import '../utils/snackbar_helper.dart';
 
 class AppDrawer extends StatelessWidget {
 
@@ -145,11 +146,7 @@ class _MenuTile extends StatelessWidget {
       ),
       onTap: enabled
           ? onTap
-          : () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Please sign in to access this feature')),
-              );
-            },
+          : () => SnackBarHelper.showSuccess(context, 'Please sign in to access this feature'),
     );
   }
 }

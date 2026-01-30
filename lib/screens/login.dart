@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:k_hub/screens/home.dart';
 import '../repositories/auth_repository.dart';
+import '../utils/snackbar_helper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,9 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Google sign-in failed')),
-      );
+      SnackBarHelper.showError(context, 'Google sign-in failed');
     }
 
     setState(() => _isLoading = false);

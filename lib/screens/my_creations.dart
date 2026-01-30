@@ -375,18 +375,12 @@ class _WidgetTile extends StatelessWidget {
               try {
                 final result = await channel.invokeMethod('extractNoteWidget');
                 if (result == true) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Widget extracted to Home screen')),
-                  );
+                  SnackBarHelper.showSuccess(context, "Widget extracted to Home screen");
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Failed to extract widget')),
-                  );
+                  SnackBarHelper.showError(context, "Failed to extract widget'.");
                 }
               } on PlatformException catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error: ${e.message}')),
-                );
+                SnackBarHelper.showError(context, "Error: ${e.message}");
               }
 
               Navigator.pop(context);

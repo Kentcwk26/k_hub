@@ -35,6 +35,13 @@ class DateFormatter {
         .replaceAll('pm', 'PM');
   }
 
+  static String format12HourMinuteSecondsUpper(DateTime date) {
+    return DateFormat('hh:mm:ss a')
+        .format(date)
+        .replaceAll('am', 'AM')
+        .replaceAll('pm', 'PM');
+  }
+
   static String formatTimestamp24hour(Timestamp timestamp) {
     final date = timestamp.toDate();
     final now = DateTime.now();
